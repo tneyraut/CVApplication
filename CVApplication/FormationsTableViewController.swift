@@ -12,7 +12,7 @@ class FormationsTableViewController: UITableViewController {
 
     private let sections: NSArray = ["Polytechnique Montréal (2015-2017)", "Mines Douai (2013-2017)", "MOOC (2013-2014)", "Lycée Marcelin Berthelot (2010-2013)"]
     
-    private let elementsSection: NSArray = [["Master en génie informatique option logiciel"], ["Ingénieur généraliste", "Majeure de spécialisation : Ingénierie des Systèmes d'Information et de Communication (ISIC)"], ["Ecole Centrale Lille", "Certificat en gestion de projet"], ["Etudiant en CPGE MPSI-PSIE", "Bac scientifique avec mention bien"]]
+    private let elementsSection: NSArray = [["Master en génie informatique option logiciel"], ["Ingénieur généraliste", " Spécialisation : Ingénierie des Systèmes d'Information et de Communication (ISIC)"], ["Ecole Centrale Lille", "Certificat en gestion de projet"], ["Etudiant en CPGE MPSI-PSIE", "Bac scientifique avec mention bien"]]
     
     private let images: NSArray = [[NSLocalizedString("ICON_POLYTECHNIQUE", comment:"")], [NSLocalizedString("ICON_MINES_DOUAI", comment:""), NSLocalizedString("ICON_MINES_DOUAI", comment:"")], [NSLocalizedString("ICON_DEFAUT", comment:""), NSLocalizedString("ICON_DEFAUT", comment:"")], [NSLocalizedString("ICON_DEFAUT", comment:""), NSLocalizedString("ICON_DEFAUT", comment:"")]]
     
@@ -64,14 +64,38 @@ class FormationsTableViewController: UITableViewController {
         return 75.0
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.sections[section] as? String
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let label = UILabel()
+        label.text = self.sections[section] as? String
+        label.textColor = UIColor.blackColor()
+        label.numberOfLines = 0
+        label.lineBreakMode = .ByWordWrapping
+        label.backgroundColor = UIColor.lightTextColor()
+        label.font = UIFont.boldSystemFontOfSize(16.0)
+        
+        label.sizeToFit()
+        
+        return label.frame.size.height + 10.0
+    }
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "    " + (self.sections[section] as! String)
+        label.textColor = UIColor.blackColor()
+        label.numberOfLines = 0
+        label.lineBreakMode = .ByWordWrapping
+        label.backgroundColor = UIColor.lightTextColor()
+        label.font = UIFont.boldSystemFontOfSize(16.0)
+        
+        label.sizeToFit()
+        
+        return label
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
         
-        let array = self.elementsSection[indexPath.section]
+        let array = self.elementsSection[indexPath.section] as! NSArray
         
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
@@ -81,7 +105,7 @@ class FormationsTableViewController: UITableViewController {
         
         cell.textLabel?.numberOfLines = 0
         
-        let arrayImages = self.images[indexPath.section]
+        let arrayImages = self.images[indexPath.section] as! NSArray
         
         cell.imageView?.image = UIImage(imageLiteral:arrayImages[indexPath.row] as! String);
         

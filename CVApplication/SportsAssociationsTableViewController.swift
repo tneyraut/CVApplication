@@ -12,7 +12,7 @@ class SportsAssociationsTableViewController: UITableViewController {
 
     private let sections: NSArray = ["Aviron", "Athlétisme", "Association Informatique et Réseaux (AIR)"]
     
-    private let elementsSection: NSArray = [["Participation au championnat de France d’aviron en 2009 dans la catégorie pair-oar cadet", "Participation a de multiples compétitions régionales (2008-2011)"], ["Participation au semi-marathon de Paris édition 2014 (1h30min48s)", "Participation au semi-marathon de Paris édition 2015 (1h27min55s)", "Participation à divers compétitions régionales d’athlétisme (2013-2015)"], ["Réalisation de l’application iOS l’Associatif pour la vie associative de l’école", "Responsable des cours de soutien", "Réalisation de dépannages informatiques et réseaux"]]
+    private let elementsSection: NSArray = [["Participation au championnat de France d’aviron en 2009 dans la catégorie pair-oar cadet", "Participation a de multiples compétitions régionales (2008-2011)"], ["Participation au semi-marathon de Paris édition 2015 (1h27min55s)", "Participation au semi-marathon de Paris édition 2014 (1h30min48s)", "Participation à divers compétitions régionales d’athlétisme (2013-2015)"], ["Réalisation de l’application iOS l’Associatif pour la vie associative de l’école", "Responsable des cours de soutien", "Réalisation de dépannages informatiques et réseaux"]]
     
     private let images: NSArray = [[NSLocalizedString("ICON_AVIRON", comment:""), NSLocalizedString("ICON_AVIRON", comment:"")], [NSLocalizedString("ICON_ATHLETISME", comment:""), NSLocalizedString("ICON_ATHLETISME", comment:""), NSLocalizedString("ICON_ATHLETISME", comment:"")], [NSLocalizedString("ICON_AIR", comment:""), NSLocalizedString("ICON_AIR", comment:""), NSLocalizedString("ICON_AIR", comment:"")]]
     
@@ -64,14 +64,38 @@ class SportsAssociationsTableViewController: UITableViewController {
         return 75.0
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.sections[section] as? String
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let label = UILabel()
+        label.text = self.sections[section] as? String
+        label.textColor = UIColor.blackColor()
+        label.numberOfLines = 0
+        label.lineBreakMode = .ByWordWrapping
+        label.backgroundColor = UIColor.lightTextColor()
+        label.font = UIFont.boldSystemFontOfSize(16.0)
+        
+        label.sizeToFit()
+        
+        return label.frame.size.height + 10.0
+    }
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "    " + (self.sections[section] as! String)
+        label.textColor = UIColor.blackColor()
+        label.numberOfLines = 0
+        label.lineBreakMode = .ByWordWrapping
+        label.backgroundColor = UIColor.lightTextColor()
+        label.font = UIFont.boldSystemFontOfSize(16.0)
+        
+        label.sizeToFit()
+        
+        return label
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
         
-        let array = self.elementsSection[indexPath.section]
+        let array = self.elementsSection[indexPath.section] as! NSArray
         
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
@@ -81,11 +105,33 @@ class SportsAssociationsTableViewController: UITableViewController {
         
         cell.textLabel?.numberOfLines = 0
         
-        let arrayImages = self.images[indexPath.section]
+        let arrayImages = self.images[indexPath.section] as! NSArray
         
         cell.imageView?.image = UIImage(imageLiteral:arrayImages[indexPath.row] as! String);
         
+        cell.accessoryType = .None
+        
+        if (indexPath.row == 0 && indexPath.section == 2)
+        {
+            cell.accessoryType = .DetailButton
+        }
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        let alertController = UIAlertController(title:"Informations", message:"Informations complémentaires", preferredStyle:.ActionSheet)
+        
+        let alertActionOne = UIAlertAction(title:"App Store", style:.Default) { (_) in UIApplication.sharedApplication().openURL(NSURL(string:"https://itunes.apple.com/us/app/mines-de-douai-lassociatif/id1023210848?mt=8")!) }
+        
+        let alertActionTwo = UIAlertAction(title:"GitHub", style:.Default) { (_) in UIApplication.sharedApplication().openURL(NSURL(string:"https://github.com/tneyraut/MinesDeDouaiAssociatif")!) }
+        
+        let alertActionThird = UIAlertAction(title:"Annuler", style:.Default) { (_) in }
+        
+        alertController.addAction(alertActionOne)
+        alertController.addAction(alertActionTwo)
+        alertController.addAction(alertActionThird)
+        
+        self.presentViewController(alertController, animated:true, completion:nil)
     }
 
 }

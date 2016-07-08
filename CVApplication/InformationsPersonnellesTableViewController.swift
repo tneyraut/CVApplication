@@ -10,9 +10,9 @@ import UIKit
 
 class InformationsPersonnellesTableViewController: UITableViewController {
 
-    private let itemsMenu: NSArray = ["Thomas Neyraut", "Né le 27/12/1993 à Nice, 22 ans", "Nationalité fançaise", "+33 (0)6 77 35 88 68", "+1 (438) 496-9969", "Permis B", "6 rue Saint Léonard La Varenne Saint Hilaire 94210, France", "3300 avenue Troie Montréal H3V 1A9, Canada", "thomas.neyraut@minesdedouai.fr", "thomas.neyraut@polymtl.ca", "GitHub : https://github.com/tneyraut"]
+    private let itemsMenu: NSArray = ["Thomas Neyraut", "Né le 27/12/1993 à Nice, 22 ans", "Nationalité fançaise", "+33 (0)6 77 35 88 68", "+1 (438) 496-9969", "Permis B", "6 rue Saint Léonard La Varenne Saint Hilaire 94210, France", "3300 avenue Troie Montréal H3V 1A9, Canada", "thomas.neyraut@minesdedouai.fr", "thomas.neyraut@polymtl.ca", "GitHub : https://github.com/tneyraut", "Linkedin : https://www.linkedin.com/in/thomas-neyraut-3a5b00a6"]
     
-    private let imagesMenu: NSArray = [NSLocalizedString("ICON_USER", comment:""), NSLocalizedString("ICON_CALENDRIER", comment:""), NSLocalizedString("ICON_FRANCE", comment:""), NSLocalizedString("ICON_TELEPHONE", comment:""), NSLocalizedString("ICON_TELEPHONE", comment:""), NSLocalizedString("ICON_PERMI", comment:""), NSLocalizedString("ICON_ADRESSE", comment:""), NSLocalizedString("ICON_ADRESSE", comment:""), NSLocalizedString("ICON_EMAIL", comment:""), NSLocalizedString("ICON_EMAIL", comment:""), NSLocalizedString("ICON_GITHUB", comment:"")]
+    private let imagesMenu: NSArray = [NSLocalizedString("ICON_USER", comment:""), NSLocalizedString("ICON_CALENDRIER", comment:""), NSLocalizedString("ICON_FRANCE", comment:""), NSLocalizedString("ICON_TELEPHONE", comment:""), NSLocalizedString("ICON_TELEPHONE", comment:""), NSLocalizedString("ICON_PERMI", comment:""), NSLocalizedString("ICON_ADRESSE", comment:""), NSLocalizedString("ICON_ADRESSE", comment:""), NSLocalizedString("ICON_EMAIL", comment:""), NSLocalizedString("ICON_EMAIL", comment:""), NSLocalizedString("ICON_GITHUB", comment:""), NSLocalizedString("ICON_LINKEDIN", comment:"")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +20,8 @@ class InformationsPersonnellesTableViewController: UITableViewController {
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
         self.tableView.registerClass(SpecificTableViewCell.classForCoder(), forCellReuseIdentifier:"cell")
-        self.tableView.registerClass(SpecificTableViewCell.classForCoder(), forCellReuseIdentifier:"cellWithTextView")
+        self.tableView.registerClass(TableViewCellWithTextView.classForCoder(), forCellReuseIdentifier:"cellWithTextView")
+        //self.tableView.registerClass(PhotoTableViewCell.classForCoder(), forCellReuseIdentifier:"cellPhotoProfil")
         
         self.title = "Informations personnelles"
         
@@ -62,43 +63,49 @@ class InformationsPersonnellesTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         if (indexPath.row > 2 && indexPath.row != 5)
         {
-            let cell = tableView.dequeueReusableCellWithIdentifier("cellWithTextView", forIndexPath: indexPath)
+            let cell = tableView.dequeueReusableCellWithIdentifier("cellWithTextView", forIndexPath: indexPath) as! TableViewCellWithTextView
             
             cell.selectionStyle = UITableViewCellSelectionStyle.None
             
             cell.imageView?.image = UIImage(imageLiteral:self.imagesMenu[indexPath.row] as! String);
             
-            let textView = UITextView(frame:CGRectMake(self.view.frame.size.width / 3, 5.0, 2 * self.view.frame.size.width / 3, cell.frame.size.height - 10.0))
-            textView.textColor = UIColor.blackColor()
-            textView.editable = false
-            textView.textAlignment = NSTextAlignment.Left
-            textView.font = UIFont(name:(cell.textLabel?.font?.fontName)!, size:15.0);
-            textView.text = self.itemsMenu[indexPath.row] as! String
+            cell.textView.text = self.itemsMenu[indexPath.row] as! String
             
             if (indexPath.row == 3 || indexPath.row == 4)
             {
-                textView.dataDetectorTypes = UIDataDetectorTypes.PhoneNumber
+                cell.textView.dataDetectorTypes = UIDataDetectorTypes.PhoneNumber
             }
             else if (indexPath.row == 6 || indexPath.row == 7)
             {
-                textView.dataDetectorTypes = UIDataDetectorTypes.Address
+                cell.textView.dataDetectorTypes = UIDataDetectorTypes.Address
             }
-            else if (indexPath.row == 8 || indexPath.row == 9)
+            else if (indexPath.row >= 8)
             {
-                textView.dataDetectorTypes = UIDataDetectorTypes.Link
+                cell.textView.dataDetectorTypes = UIDataDetectorTypes.Link
             }
-            else if (indexPath.row == 10)
-            {
-                textView.dataDetectorTypes = UIDataDetectorTypes.Link
-            }
-            
-            cell.addSubview(textView)
-            
             return cell
         }
+        
+        /*if (indexPath.row == 0)
+        {
+            let cell = tableView.dequeueReusableCellWithIdentifier("cellPhotoProfil", forIndexPath: indexPath)
+            
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            
+            cell.imageView?.image = UIImage(imageLiteral:self.imagesMenu[indexPath.row] as! String);
+            
+            cell.textLabel?.text = self.itemsMenu[indexPath.row] as? String
+            
+            cell.textLabel?.textAlignment = .Center
+            
+            cell.textLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping
+            
+            cell.textLabel?.numberOfLines = 0
+            
+            return cell
+        }*/
         
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
         

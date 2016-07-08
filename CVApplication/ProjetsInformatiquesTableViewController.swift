@@ -10,16 +10,35 @@ import UIKit
 
 class ProjetsInformatiquesTableViewController: UITableViewController {
 
-    private let items: NSArray = ["GitHub : https://github.com/tneyraut", "Réalisation d’un système informatique de Televoting pour les Mines Douai (application iOS, application web mobile, site web et back-end web)", "Réalisation de l’application iOS l’Associatif pour la vie associative à l’école Mines Douai", "Réalisation du site internet sur le modèle du jeu de société Ticket To Ride", "Réalisation d’applications iOS durant le temps libre", "Réalisation de programmes Java durant le temps libre", "Réalisation d’applications web mobiles"]
+    private let items: NSArray = ["GitHub : https://github.com/tneyraut", "Réalisation d’un système informatique de Televoting pour les Mines Douai (application iOS, application web mobile, site web et back-end web)", "Réalisation de l’application iOS l’Associatif pour la vie associative à l’école Mines Douai", "Réalisation d’applications iOS durant le temps libre", "Réalisation de programmes Java", "Réalisation du site internet sur le modèle du jeu de société Ticket To Ride", "Réalisation d’applications web mobiles"]
     
-    private let images: NSArray = [NSLocalizedString("ICON_GITHUB", comment:""), NSLocalizedString("ICON_IOS", comment:""), NSLocalizedString("ICON_IOS", comment:""), NSLocalizedString("ICON_WEB", comment:""), NSLocalizedString("ICON_IOS", comment:""), NSLocalizedString("ICON_JAVA", comment:""), NSLocalizedString("ICON_HTML5", comment:"")]
+    private let images: NSArray = [NSLocalizedString("ICON_GITHUB", comment:""), NSLocalizedString("ICON_IOS", comment:""), NSLocalizedString("ICON_IOS", comment:""), NSLocalizedString("ICON_IOS", comment:""), NSLocalizedString("ICON_JAVA", comment:""), NSLocalizedString("ICON_WEB", comment:""), NSLocalizedString("ICON_HTML5", comment:"")]
+    
+    private let detailsItems: NSArray = [
+        ["Televoting : Application iOS", "Televoting : Site web and back-end web", "Televoting : Application web mobile"],
+        ["Apple Store", "GitHub"],
+        ["Brain Fuck", "Dark Avenger", "CV application", "Killy Bird", "Démineur", "Le Pendu", "Shoot", "Les Balls", "Dictée", "Web App"],
+        ["Projet de Ré-ingénierie : JavaParser", "Projet de management des hommes"],
+        ["Projet site web d'ISIC"],
+        ["Televoting", "Projet d'ISIC"]
+    ]
+    
+    private let detailsLinks: NSArray = [
+        ["https://github.com/tneyraut/Televoting_Application_iOS", "https://github.com/tneyraut/Televoting_Site_Web", "https://github.com/tneyraut/Televoting_Application_Web_Mobile"],
+        ["https://itunes.apple.com/us/app/mines-de-douai-lassociatif/id1023210848?mt=8", "https://github.com/tneyraut/MinesDeDouaiAssociatif"],
+        ["https://github.com/tneyraut/BrainFuck", "https://github.com/tneyraut/DarkAvenger", "https://github.com/tneyraut/CVApplication", "https://github.com/tneyraut/KillyBird", "https://github.com/tneyraut/Demineur", "https://github.com/tneyraut/LePendu", "https://github.com/tneyraut/Shoot", "https://github.com/tneyraut/LesBalls", "https://github.com/tneyraut/Dictee", "https://github.com/tneyraut/WebApp"],
+        ["https://github.com/tneyraut/JavaParser", "https://github.com/tneyraut/SeriousGame"],
+        ["https://github.com/tneyraut/ProjetSiteWeb"],
+        ["https://github.com/tneyraut/Televoting_Application_Web_Mobile", "https://github.com/tneyraut/ProjetApplicationWebMobile"]
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
-        self.tableView.registerClass(SpecificTableViewCell.classForCoder(), forCellReuseIdentifier:"cell")
+        self.tableView.registerClass(TableViewCellWithTextView.classForCoder(), forCellReuseIdentifier:"cell")
+        self.tableView.registerClass(TableViewCellWithTextView.classForCoder(), forCellReuseIdentifier:"cell1")
         
         self.title = "Projets informatiques"
         
@@ -61,27 +80,56 @@ class ProjetsInformatiquesTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+        if (indexPath.row == 0)
+        {
+            let cell = tableView.dequeueReusableCellWithIdentifier("cell1", forIndexPath: indexPath) as! TableViewCellWithTextView
+            
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            
+            cell.imageView?.image = UIImage(imageLiteral:self.images[indexPath.row] as! String);
+            
+            cell.textView.text = self.items[indexPath.row] as! String
+            
+            cell.textView.dataDetectorTypes = UIDataDetectorTypes.Link
+            
+            return cell
+        }
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! TableViewCellWithTextView
         
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
         cell.imageView?.image = UIImage(imageLiteral:self.images[indexPath.row] as! String);
         
-        let textView = UITextView(frame:CGRectMake(self.view.frame.size.width / 3, 5.0, 2 * self.view.frame.size.width / 3, cell.frame.size.height - 10.0))
-        textView.textColor = UIColor.blackColor()
-        textView.editable = false
-        textView.textAlignment = NSTextAlignment.Left
-        textView.font = UIFont(name:(cell.textLabel?.font?.fontName)!, size:15.0);
-        textView.text = self.items[indexPath.row] as! String
+        cell.textView.text = self.items[indexPath.row] as! String
         
-        if (indexPath.row == 0)
-        {
-            textView.dataDetectorTypes = UIDataDetectorTypes.Link
-        }
-        
-        cell.addSubview(textView)
+        cell.accessoryType = .DetailButton
         
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        if (indexPath.row - 1 >= self.detailsItems.count || indexPath.row - 1 >= self.detailsLinks.count)
+        {
+            return
+        }
+        let alertController = UIAlertController(title:"Détails", message:"Lien GitHub des applications implémentées.", preferredStyle:.ActionSheet)
+        
+        let detailsArray = self.detailsItems[indexPath.row - 1] as! NSArray
+        let linksArray = self.detailsLinks[indexPath.row - 1] as! NSArray
+        var i = 0
+        while (i < linksArray.count && i < detailsArray.count)
+        {
+            let url = linksArray[i] as! String
+            let alertAction = UIAlertAction(title:detailsArray[i] as? String, style:.Default) { (_) in
+                UIApplication.sharedApplication().openURL(NSURL(string:url)!);
+            }
+            alertController.addAction(alertAction)
+            i += 1
+        }
+        let lastAlertAction = UIAlertAction(title:"Annuler", style:.Default) { (_) in }
+        alertController.addAction(lastAlertAction)
+        
+        self.presentViewController(alertController, animated:true, completion:nil)
     }
 
 }

@@ -10,7 +10,7 @@ import UIKit
 
 class CompetencesInformatiquesTableViewController: UITableViewController {
     
-    private let sections: NSArray = ["Langages de programmation maitrisés", "Compétences en conception de logiciels", "Frameworks et librairies"]
+    private let sections: NSArray = ["Langages de programmation maitrisés", "Conception de logiciels", "Frameworks et librairies"]
     
     private let elementsSection: NSArray = [["Développement d'applications mobiles iOS : Objective-c et Swift", "Java ; C", "Développement d'applications web mobiles (HTML5) : JS, HTML, CSS", "Développement web : PHP, HTML, JS, CSS, SQL"], ["Modélisation UML : Diagrammes UML, Design Pattern..."], ["Parse", "Mixpanel", "Xamarin"]]
     
@@ -64,14 +64,38 @@ class CompetencesInformatiquesTableViewController: UITableViewController {
         return 75.0
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.sections[section] as? String
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let label = UILabel()
+        label.text = self.sections[section] as? String
+        label.textColor = UIColor.blackColor()
+        label.numberOfLines = 0
+        label.lineBreakMode = .ByWordWrapping
+        label.backgroundColor = UIColor.lightTextColor()
+        label.font = UIFont.boldSystemFontOfSize(16.0)
+        
+        label.sizeToFit()
+        
+        return label.frame.size.height + 10.0
+    }
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "    " + (self.sections[section] as! String)
+        label.textColor = UIColor.blackColor()
+        label.numberOfLines = 0
+        label.lineBreakMode = .ByWordWrapping
+        label.backgroundColor = UIColor.lightTextColor()
+        label.font = UIFont.boldSystemFontOfSize(16.0)
+        
+        label.sizeToFit()
+        
+        return label
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
         
-        let array = self.elementsSection[indexPath.section]
+        let array = self.elementsSection[indexPath.section] as! NSArray
         
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
@@ -81,7 +105,7 @@ class CompetencesInformatiquesTableViewController: UITableViewController {
         
         cell.textLabel?.numberOfLines = 0
         
-        let arrayImages = self.images[indexPath.section]
+        let arrayImages = self.images[indexPath.section] as! NSArray
         
         cell.imageView?.image = UIImage(imageLiteral:arrayImages[indexPath.row] as! String);
         

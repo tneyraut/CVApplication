@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         application.statusBarHidden = true;
         
-        let accueilTableViewController = AccueilTableViewController();
+        let accueilTableViewController = AccueilTableViewController(style: UITableViewStyle.Plain);
         
         let navigationController = UINavigationController(rootViewController: accueilTableViewController);
         
@@ -43,6 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         shadow.shadowOffset = CGSizeMake(0,1);
         
         navigationController.navigationBar.titleTextAttributes = NSDictionary(objects: [UIColor(red:245.0/255.0, green:245.0/255.0, blue:245.0/255.0, alpha:1.0), shadow, UIFont(name:"HelveticaNeue-CondensedBlack", size:21.0)!], forKeys: [NSForegroundColorAttributeName, NSShadowAttributeName, NSFontAttributeName]) as? [String : AnyObject];
+        
+        navigationController.navigationBar.tintColor = UIColor.whiteColor()
         
         self.window?.makeKeyAndVisible();
         
