@@ -131,7 +131,7 @@ class ExperiencesProfessionnellesTableViewController: UITableViewController {
         let alertController = UIAlertController(title:"Informations complémentaires", message:message, preferredStyle:.ActionSheet)
         
         let alertActionOne = UIAlertAction(title:email, style:.Default) { (_) in UIApplication.sharedApplication().openURL(NSURL(string:"mailto:\(email)")!) }
-        let alertActionThird = UIAlertAction(title:"Annuler", style:.Default) { (_) in }
+        let alertActionThird = UIAlertAction(title:"Annuler", style:.Destructive) { (_) in }
         
         alertController.addAction(alertActionOne)
         if (indexPath.section == 0)

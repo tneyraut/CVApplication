@@ -14,6 +14,8 @@ class AccueilTableViewController: UITableViewController {
     
     private let imagesMenu: NSArray = [NSLocalizedString("ICON_INFORMATIONS", comment:""), NSLocalizedString("ICON_FORMATIONS", comment:""), NSLocalizedString("ICON_EXPERIENCES", comment:""), NSLocalizedString("ICON_PROJET", comment:""), NSLocalizedString("ICON_COMPETENCES_INFORMATIQUES", comment:""), NSLocalizedString("ICON_TOEIC", comment:""), NSLocalizedString("ICON_SPORT", comment:"")]
     
+    private let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,6 +33,14 @@ class AccueilTableViewController: UITableViewController {
         buttonPrevious.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red:245.0/255.0, green:245.0/255.0, blue:245.0/255.0, alpha:1.0), NSShadowAttributeName: shadow, NSFontAttributeName: UIFont(name:"HelveticaNeue-CondensedBlack", size:21.0)!], forState:UIControlState.Normal)
         
         self.navigationItem.backBarButtonItem = buttonPrevious
+        
+        self.activityIndicatorView.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2)
+        
+        self.activityIndicatorView.color = UIColor.blackColor()
+        
+        self.activityIndicatorView.hidesWhenStopped = true
+        
+        self.tableView.addSubview(self.activityIndicatorView)
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -77,6 +87,13 @@ class AccueilTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if (self.activityIndicatorView.isAnimating())
+        {
+            return
+        }
+        self.activityIndicatorView.hidden = false
+        self.activityIndicatorView.startAnimating()
+        
         if (indexPath.row == 0)
         {
             let informationsPersonellesTableViewController = InformationsPersonnellesTableViewController(style: UITableViewStyle.Plain)
@@ -119,6 +136,7 @@ class AccueilTableViewController: UITableViewController {
             
             self.navigationController?.pushViewController(sportsAssociationsTableViewController, animated:true)
         }
+        self.activityIndicatorView.stopAnimating()
     }
 
 }

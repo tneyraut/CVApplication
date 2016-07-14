@@ -17,7 +17,7 @@ class ProjetsInformatiquesTableViewController: UITableViewController {
     private let detailsItems: NSArray = [
         ["Televoting : Application iOS", "Televoting : Site web and back-end web", "Televoting : Application web mobile"],
         ["Apple Store", "GitHub"],
-        ["Brain Fuck", "Dark Avenger", "CV application", "Killy Bird", "Démineur", "Le Pendu", "Shoot", "Les Balls", "Dictée", "Web App"],
+        ["Brain Fuck", "Dark Avenger", "The Maze", "CV application", "Crazy Bird", "Killy Bird", "Démineur", "Speaker", "Help Alarm", "Le Pendu", "Shoot", "Mac Triche", "Les Balls", "Dictée", "Web App"],
         ["Projet de Ré-ingénierie : JavaParser", "Projet de management des hommes"],
         ["Projet site web d'ISIC"],
         ["Televoting", "Projet d'ISIC"]
@@ -26,7 +26,7 @@ class ProjetsInformatiquesTableViewController: UITableViewController {
     private let detailsLinks: NSArray = [
         ["https://github.com/tneyraut/Televoting_Application_iOS", "https://github.com/tneyraut/Televoting_Site_Web", "https://github.com/tneyraut/Televoting_Application_Web_Mobile"],
         ["https://itunes.apple.com/us/app/mines-de-douai-lassociatif/id1023210848?mt=8", "https://github.com/tneyraut/MinesDeDouaiAssociatif"],
-        ["https://github.com/tneyraut/BrainFuck", "https://github.com/tneyraut/DarkAvenger", "https://github.com/tneyraut/CVApplication", "https://github.com/tneyraut/KillyBird", "https://github.com/tneyraut/Demineur", "https://github.com/tneyraut/LePendu", "https://github.com/tneyraut/Shoot", "https://github.com/tneyraut/LesBalls", "https://github.com/tneyraut/Dictee", "https://github.com/tneyraut/WebApp"],
+        ["https://github.com/tneyraut/BrainFuck", "https://github.com/tneyraut/DarkAvenger", "https://github.com/tneyraut/TheMaze", "https://github.com/tneyraut/CVApplication", "https://github.com/tneyraut/CrazyBird", "https://github.com/tneyraut/KillyBird", "https://github.com/tneyraut/Demineur", "https://github.com/tneyraut/Speaker", "https://github.com/tneyraut/HelpAlarm", "https://github.com/tneyraut/LePendu", "https://github.com/tneyraut/Shoot", "https://github.com/tneyraut/MacTriche","https://github.com/tneyraut/LesBalls", "https://github.com/tneyraut/Dictee", "https://github.com/tneyraut/WebApp"],
         ["https://github.com/tneyraut/JavaParser", "https://github.com/tneyraut/SeriousGame"],
         ["https://github.com/tneyraut/ProjetSiteWeb"],
         ["https://github.com/tneyraut/Televoting_Application_Web_Mobile", "https://github.com/tneyraut/ProjetApplicationWebMobile"]
@@ -126,7 +126,7 @@ class ProjetsInformatiquesTableViewController: UITableViewController {
             alertController.addAction(alertAction)
             i += 1
         }
-        let lastAlertAction = UIAlertAction(title:"Annuler", style:.Default) { (_) in }
+        let lastAlertAction = UIAlertAction(title:"Annuler", style:.Destructive) { (_) in }
         alertController.addAction(lastAlertAction)
         
         self.presentViewController(alertController, animated:true, completion:nil)

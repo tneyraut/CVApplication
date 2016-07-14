@@ -125,7 +125,7 @@ class SportsAssociationsTableViewController: UITableViewController {
         
         let alertActionTwo = UIAlertAction(title:"GitHub", style:.Default) { (_) in UIApplication.sharedApplication().openURL(NSURL(string:"https://github.com/tneyraut/MinesDeDouaiAssociatif")!) }
         
-        let alertActionThird = UIAlertAction(title:"Annuler", style:.Default) { (_) in }
+        let alertActionThird = UIAlertAction(title:"Annuler", style:.Destructive) { (_) in }
         
         alertController.addAction(alertActionOne)
         alertController.addAction(alertActionTwo)
