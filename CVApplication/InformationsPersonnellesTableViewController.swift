@@ -87,26 +87,6 @@ class InformationsPersonnellesTableViewController: UITableViewController {
             }
             return cell
         }
-        
-        /*if (indexPath.row == 0)
-        {
-            let cell = tableView.dequeueReusableCellWithIdentifier("cellPhotoProfil", forIndexPath: indexPath)
-            
-            cell.selectionStyle = UITableViewCellSelectionStyle.None
-            
-            cell.imageView?.image = UIImage(imageLiteral:self.imagesMenu[indexPath.row] as! String);
-            
-            cell.textLabel?.text = self.itemsMenu[indexPath.row] as? String
-            
-            cell.textLabel?.textAlignment = .Center
-            
-            cell.textLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping
-            
-            cell.textLabel?.numberOfLines = 0
-            
-            return cell
-        }*/
-        
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
         
         cell.selectionStyle = UITableViewCellSelectionStyle.None
@@ -119,7 +99,32 @@ class InformationsPersonnellesTableViewController: UITableViewController {
         
         cell.textLabel?.numberOfLines = 0
         
+        if (indexPath.row == 0)
+        {
+            cell.selectionStyle = .Default
+            cell.accessoryType = .DisclosureIndicator
+        }
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if (indexPath.row != 0)
+        {
+            return
+        }
+        let imageView = UIImageView(frame:CGRectMake(10.0, (self.navigationController?.navigationBar.frame.size.height)! + 30.0, self.view.frame.size.width - 20.0, self.view.frame.size.height - (self.navigationController?.navigationBar.frame.size.height)! - 30.0))
+        
+        imageView.image = UIImage(named:NSLocalizedString("PHOTO_PROFIL", comment:""))
+        
+        let viewController = UIViewController()
+        
+        viewController.view.backgroundColor = UIColor.clearColor()
+        
+        viewController.view.addSubview(imageView)
+        
+        viewController.title = "Photo de profil"
+        
+        self.navigationController?.pushViewController(viewController, animated:true)
     }
 
 }
